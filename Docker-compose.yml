@@ -1,0 +1,44 @@
+version: "3.8"
+services:
+  frontend:
+    build:
+      context: ./frontend  # This points to the folder where the Dockerfile for frontend is located
+    image: frontend_todo:1
+    ports: 
+      - "3000:3000"
+    environment:  
+    - REACT_APP_BACKEND_URL=http://backend:5000/api/tasks  
+    depends_on:
+      - backend
+    networks:
+      - my-network
+
+  backend:
+    build:
+      context: ./backend  # This points to the folder where the Dockerfile for frontend is located
+    image: backend_todo:1
+    ports:
+      - "5000:5000"   
+    depends_on:
+      - database
+    networks:
+      - my-network  
+
+  database:
+    image: mongo:5
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+    - MONGO_INITDB_ROOT_USERNAME=admin  # Only if using authentication
+    - MONGO_INITDB_ROOT_PASSWORD=adminpassword  # Only if using authentication  
+    networks:
+      - my-network
+
+volumes:
+  mongo-data:
+
+networks:
+  my-network:
+    driver: bridge
