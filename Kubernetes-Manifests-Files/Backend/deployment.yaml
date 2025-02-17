@@ -21,8 +21,7 @@ spec:
         - containerPort: 5000
         env:
         - name: MONGO_URI
-          value: "mongodb://mongodb-service:27017/tasks"
-        - name: MONGO_HOST
-          value: "mongodb-service"
-        - name: MONGO_PORT
-          value: "27017"
+          valueFrom:
+            configMapKeyRef:
+              name: mongodb-config
+              key: MONGO_URI

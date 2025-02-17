@@ -3,10 +3,9 @@ const mongoose = require("mongoose");
 module.exports = async () => {
 
     try {
-        const mongoHost = process.env.MONGO_HOST || 'mongodb-service';
-        const mongoPort = process.env.MONGO_PORT || '27017';
+        const mongoURI = process.env.MONGO_URI || "mongodb://mongodb-service:27017/task";
 
-        await mongoose.connect(`mongodb://${mongoHost}:${mongoPort}/task`, {
+        await mongoose.connect(mongoURI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
